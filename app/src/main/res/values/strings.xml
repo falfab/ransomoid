@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ransomoid</string>
+    <string name="main_activity_alert_dialog_message">You need to allow application to store info about your account in your local device.</string>
+    <string name="main_activity_alert_dialog_title">Permission needed</string>
 </resources>
