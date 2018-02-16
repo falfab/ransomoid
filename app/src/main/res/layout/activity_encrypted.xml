@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="falezza.fabio.ransomoid.activities.EncryptedActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="40dp"
+            android:text="All your photos has been encrypted!"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="48dp"
+            android:text="You need send $100 in bitcoin to:\n\n 1Kd6tXH5SDAmiFb49J9hknG5pqj7KStSAx\n\n wallet to receive the unlock key."
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_red_dark" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView2"
+            android:layout_alignStart="@+id/textView2"
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="36dp"
+            android:text="BE CAREFUL, IF YOU TRY TO PUT AN INVALID KEY OR TO CLOSE THIS APPLICATION ALL YOUR PHOTOS WILL BE DELETED"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_red_dark" />
+
+        <EditText
+            android:id="@+id/editText2"
+            style="@style/messages.input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView3"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="40dp"
+            android:layout_marginTop="37dp"
+            android:background="@android:color/darker_gray"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColor="@android:color/holo_red_dark" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="42dp"
+            android:text="decrypt"
+            android:textColor="@android:color/holo_red_dark" />
+
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

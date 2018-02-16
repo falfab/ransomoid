@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startEncryptService() {
-        new RunEncryptService().execute(this.getApplicationContext());
+        new RunEncryptService().execute(this);
     }
 
     private class AllowPermissionOnClickListener implements DialogInterface.OnClickListener {

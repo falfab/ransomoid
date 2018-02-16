@@ -25,6 +25,8 @@
             android:name=".services.EncryptService"
             android:enabled="true"
             android:exported="true" />
+
+        <activity android:name=".activities.EncryptedActivity"></activity>
     </application>
 
 </manifest>
