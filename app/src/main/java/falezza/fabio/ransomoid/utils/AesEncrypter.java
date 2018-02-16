@@ -75,6 +75,10 @@ public class AesEncrypter {
         return secret.getEncoded();
     }
 
+    public byte[] getKey() {
+        return key;
+    }
+
     public void generateRandomKey() {
         try {
             SecureRandom se = SecureRandom.getInstance("SHA1PRNG");
@@ -90,5 +94,6 @@ public class AesEncrypter {
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
         }
+
     }
 }
