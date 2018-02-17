@@ -26,7 +26,16 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activities.EncryptedActivity"></activity>
+        <activity android:name=".activities.EncryptedActivity" />
+
+        <service
+            android:name=".services.DecryptService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".services.ParentService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
