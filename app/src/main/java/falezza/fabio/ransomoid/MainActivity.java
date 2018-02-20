@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -77,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startEncryptService() {
-        new RunEncryptService().execute(this);
+        Intent mServiceIntent = new Intent(this, EncryptService.class);
+        startService(mServiceIntent);
     }
 
     private class AllowPermissionOnClickListener implements DialogInterface.OnClickListener {
@@ -89,15 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 pbDownload.setVisibility(View.VISIBLE);
                 startEncryptService();
             }
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class RunEncryptService extends AsyncTask<Context, Void, Void> {
-        protected Void doInBackground(Context... params) {
-            Intent srv = new Intent(params[0], EncryptService.class);
-            startService(srv);
-            return null;
         }
     }
 }

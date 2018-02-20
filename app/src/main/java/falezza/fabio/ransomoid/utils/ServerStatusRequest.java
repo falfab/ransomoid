@@ -37,7 +37,7 @@ public class ServerStatusRequest extends Request {
         mContentType = "application/json";
 
         if (method == Request.Method.POST) {
-            RetryPolicy policy = new DefaultRetryPolicy(5000, 0, 5);
+            RetryPolicy policy = new DefaultRetryPolicy(20000, 0, 5);
             setRetryPolicy(policy);
         }
     }
