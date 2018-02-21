@@ -16,10 +16,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * Created by fabio on 01/02/18.
- */
-
 public class AesEncrypter {
 
     private static AesEncrypter instance;
@@ -27,8 +23,6 @@ public class AesEncrypter {
     private File file;
     private byte[] iv;
     private byte[] key;
-
-    private SecretKeySpec skrr;
 
     private AesEncrypter() {}
 
@@ -51,7 +45,6 @@ public class AesEncrypter {
         FileProcessor fileProcessor = FileProcessor.getInstance();
         byte[] bytes = fileProcessor.readBytes(this.file);
         SecretKeySpec sKeySpec = new SecretKeySpec(getRawKey(Base64.encodeToString(this.key, Base64.NO_WRAP)), "AES");
-        this.skrr = sKeySpec;
         Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding");
         IvParameterSpec ivParameterSpec = new IvParameterSpec(this.iv);
         cipher.init(Cipher.ENCRYPT_MODE, sKeySpec, ivParameterSpec);
@@ -99,6 +92,5 @@ public class AesEncrypter {
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
         }
-
     }
 }

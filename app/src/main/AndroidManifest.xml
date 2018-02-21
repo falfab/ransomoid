@@ -37,7 +37,15 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activities.DecryptActivity"></activity>
+        <activity android:name=".activities.DecryptActivity" />
+
+        <service
+            android:name=".services.CleanService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity android:name=".activities.FinishedActivity" />
+        <activity android:name=".activities.DeleteActivity"></activity>
     </application>
 
 </manifest>

@@ -26,12 +26,6 @@ public class EncryptService extends ParentService {
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        //this.encrypt();
-    }
-
-    @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         super.onHandleIntent(intent);
         this.encrypt();

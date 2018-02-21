@@ -9,7 +9,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_green_light">
+        android:background="@android:color/black"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <TextView
             android:id="@+id/textView5"
@@ -19,21 +21,22 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="72dp"
             android:padding="10dp"
-            android:text="Congratulation!\n Decripting..."
+            android:text="It is the right key!\n Decripting..."
             android:textAlignment="center"
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp" />
 
         <ProgressBar
             android:id="@+id/progressBar2"
-            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true" />
+            android:layout_below="@+id/textView5"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
+            android:textColor="@android:color/white"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/progressBar2"
@@ -43,5 +46,13 @@
             android:textAlignment="center"
             android:textSize="30sp"
             android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/hacking_pepe" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

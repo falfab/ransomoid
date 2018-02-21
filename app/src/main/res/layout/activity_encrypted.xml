@@ -51,7 +51,7 @@
             android:layout_alignStart="@+id/textView2"
             android:layout_below="@+id/textView2"
             android:layout_marginTop="36dp"
-            android:text="BE CAREFUL, IF YOU TRY TO PUT AN INVALID KEY OR TO CLOSE THIS APPLICATION ALL YOUR PHOTOS WILL BE DELETED"
+            android:text="BE CAREFUL, IF YOU TRY TO PUT AN INVALID KEY ALL YOUR PHOTOS WILL BE DELETED"
             android:textAlignment="center"
             android:textColor="@android:color/holo_red_dark" />
 

@@ -18,6 +18,10 @@ public class DecryptActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String key = intent.getStringExtra("key");
 
+        Intent finishActivity = new Intent(this, FinishedActivity.class);
+        finishActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(finishActivity);
+
         Intent decryptService = new Intent(this, DecryptService.class);
         decryptService.setData(Uri.parse(key));
         startService(decryptService);

@@ -18,7 +18,7 @@ public class ParentService extends IntentService {
     private static final String[] imgExtensions =
             {".jpg", ".jpeg", ".png", ".JPG", ".PNG", ".JPEG"};
 
-    private static final String[] excludeExtensions = {"Android/data", ".thumbnails"};
+    private static final String[] excludeExtensions = {"Android/data"};
 
     ArrayList<File> imgList;
 
@@ -26,18 +26,12 @@ public class ParentService extends IntentService {
         super(name);
     }
 
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         FileProcessor fileProcessor = FileProcessor.getInstance();
         this.imgList = fileProcessor.getFiles(Environment.getExternalStorageDirectory(),
                 imgExtensions, excludeExtensions);
+        System.out.print(imgList);
     }
 
     protected void showMessage(final String message) {
@@ -58,6 +52,4 @@ public class ParentService extends IntentService {
         return FileProcessor.getInstance().getFiles(Environment.getExternalStorageDirectory(),
                 new String[]{".enc"}, excludeExtensions);
     }
-
-
 }
