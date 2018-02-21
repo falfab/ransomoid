@@ -18,7 +18,7 @@ public class ParentService extends IntentService {
     private static final String[] imgExtensions =
             {".jpg", ".jpeg", ".png", ".JPG", ".PNG", ".JPEG"};
 
-    private static final String[] excludeExtensions = {"Android/data", ".thumbnails", ".enc"};
+    private static final String[] excludeExtensions = {"Android/data", ".thumbnails"};
 
     ArrayList<File> imgList;
 

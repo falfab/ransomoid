@@ -84,4 +84,10 @@ public class FileProcessor {
         fos.close();
         return file;
     }
+
+    public String getDecryptFileName(File file) {
+        String[] parts = file.getPath().split("\\.");
+        String originalExtension = parts[parts.length - 2];
+        return file.getPath().replace("." +originalExtension+ ".enc", "." + originalExtension);
+    }
 }

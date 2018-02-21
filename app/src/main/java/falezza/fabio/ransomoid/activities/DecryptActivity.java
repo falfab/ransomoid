@@ -19,7 +19,6 @@ public class DecryptActivity extends AppCompatActivity {
         String key = intent.getStringExtra("key");
 
         Intent decryptService = new Intent(this, DecryptService.class);
-        //decryptService.putExtra("Key", key);
         decryptService.setData(Uri.parse(key));
         startService(decryptService);
     }

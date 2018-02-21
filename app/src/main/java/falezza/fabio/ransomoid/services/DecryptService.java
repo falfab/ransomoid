@@ -42,17 +42,19 @@ public class DecryptService extends ParentService {
         this.showMessage("Decrypting...");
         try {
             AesEncrypter aesEncrypter = AesEncrypter.getInstance();
-            aesEncrypter.setKey(Base64.decode(this.key, 0));
+            aesEncrypter.setKey(Base64.decode(this.key, Base64.NO_WRAP));
             ArrayList<File> files = this.getEncryptedFiles();
             for (File img: files) {
                 if (isEncrypted(img)) {
                     aesEncrypter.setFile(img);
-                    aesEncrypter.decrypt();
+                    byte[] decrypted = aesEncrypter.decrypt();
+                    FileProcessor.getInstance().writeBytesToFile(decrypted, FileProcessor.getInstance().getDecryptFileName(img));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        this.showMessage("DONE");
     }
 
     @Override

