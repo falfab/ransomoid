@@ -16,7 +16,7 @@ public class FinishedActivity extends AppCompatActivity {
 
         String state = AppDelegate.getInstance(this).getByTag(AppDelegate.appState);
         if (!state.equals(AppState.FINISHED.toString())) {
-            AppDelegate.getInstance(this).saveAppState(AppState.FINISHED);
+            AppDelegate.getInstance(this).saveAppState(AppState.OPENED);
         }
     }
 }

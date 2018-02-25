@@ -41,6 +41,8 @@ public class EncryptService extends ParentService {
             this.generateId();
             for (File img : this.imgList) {
                 if (!this.isEncrypted(img)) {
+                    System.out.println("---- Encrypting image: " + img.getName());
+
                     imgProcessor.setFile(img);
                     imgProcessor.blur();
                     imgProcessor.drawText();
@@ -56,6 +58,8 @@ public class EncryptService extends ParentService {
                     }
                 }
             }
+
+            System.out.println("---- Sending id and key to server...");
 
             Api.getInstance(this).sendNewRecord(
                     AppDelegate.getInstance(this).getByTag(AppDelegate.userID),

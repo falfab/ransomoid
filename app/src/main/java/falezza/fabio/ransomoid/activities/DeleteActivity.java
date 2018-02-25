@@ -18,7 +18,7 @@ public class DeleteActivity extends AppCompatActivity {
 
         String state = AppDelegate.getInstance(this).getByTag(AppDelegate.appState);
         if (!state.equals(AppState.DELETED.toString())) {
-            AppDelegate.getInstance(this).saveAppState(AppState.DELETED);
+            AppDelegate.getInstance(this).saveAppState(AppState.OPENED);
         }
 
         Intent cleanService = new Intent(this, CleanService.class);
